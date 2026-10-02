@@ -1,0 +1,16 @@
+{
+  "name": "obsidian-torchlight",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Torchlight: a dark, gold-trimmed Obsidian theme with a parchment light mode.",
+  "license": "MIT",
+  "author": "Muhammed Enes Alpler",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node tests/check.mjs"
+  }
+}

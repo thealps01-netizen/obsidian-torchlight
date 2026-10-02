@@ -1,0 +1,102 @@
+/* Torchlight: a dark, gold-trimmed Obsidian theme with a parchment light mode, made to sit beside the Adventure
+   Runner panel (it never styles the panel; the panel keeps its own look in any theme).
+   Source file: scripts/build.mjs inlines the fonts (url(fonts/…)) as data URIs and writes theme.css. Edit this file,
+   never theme.css. Variables first: the colour scale, the accent and the fonts drive almost everything. */
+
+/* ─ fonts: Merriweather (body and interface) and Alegreya (headings), Latin + Latin Extended, SIL OFL 1.1 */
+@font-face { font-family: 'Torchlight Merriweather'; font-style: normal; font-weight: 300 900; font-display: swap; src: url(fonts/Merriweather-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Torchlight Merriweather'; font-style: normal; font-weight: 300 900; font-display: swap; src: url(fonts/Merriweather-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Torchlight Merriweather'; font-style: italic; font-weight: 300 900; font-display: swap; src: url(fonts/Merriweather-italic-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Torchlight Merriweather'; font-style: italic; font-weight: 300 900; font-display: swap; src: url(fonts/Merriweather-italic-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Torchlight Alegreya'; font-style: normal; font-weight: 400 800; font-display: swap; src: url(fonts/Alegreya-normal-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Torchlight Alegreya'; font-style: normal; font-weight: 400 800; font-display: swap; src: url(fonts/Alegreya-normal-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Torchlight Alegreya'; font-style: italic; font-weight: 400 800; font-display: swap; src: url(fonts/Alegreya-italic-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Torchlight Alegreya'; font-style: italic; font-weight: 400 800; font-display: swap; src: url(fonts/Alegreya-italic-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+/* ─ both modes: fonts and type */
+body {
+  --font-text-theme: 'Torchlight Merriweather', Georgia, serif;
+  --font-interface-theme: 'Torchlight Merriweather', Georgia, serif;
+  --tl-display: 'Torchlight Alegreya', 'Palatino Linotype', Georgia, serif;
+  --h1-font: var(--tl-display); --h2-font: var(--tl-display); --h3-font: var(--tl-display);
+  --h4-font: var(--tl-display); --h5-font: var(--tl-display); --h6-font: var(--tl-display);
+  --inline-title-font: var(--tl-display);
+  --h1-variant: small-caps; --h2-variant: small-caps; --inline-title-variant: small-caps;
+  --h1-weight: 700; --h2-weight: 700; --h3-weight: 700; --h4-weight: 700; --inline-title-weight: 700;
+  --h1-size: 2.1em; --h2-size: 1.7em; --h3-size: 1.4em; --h4-size: 1.2em; --inline-title-size: 2.1em;
+  --line-height-normal: 1.6;
+  --bold-weight: 700;
+  --radius-s: 4px; --radius-m: 7px; --radius-l: 10px;
+}
+
+/* ─ dark: soot and gold (the panel's palette) */
+.theme-dark {
+  --color-base-00: #120e0b; --color-base-05: #0f0c09; --color-base-10: #16110d; --color-base-20: #1d1712;
+  --color-base-25: #241c15; --color-base-30: #3a2f22; --color-base-35: #4a3a28; --color-base-40: #5a4a36;
+  --color-base-50: #8c806b; --color-base-60: #a0937c; --color-base-70: #b9ab90; --color-base-100: #ece2cc;
+  --accent-h: 37; --accent-s: 47%; --accent-l: 60%;
+  --text-on-accent: #1a140c; --text-on-accent-inverted: #f3e6c8;
+  --color-red: #d4574a; --color-orange: #d9893e; --color-yellow: #d9b46a; --color-green: #8fae5e;
+  --color-cyan: #6fb0b0; --color-blue: #7d98c9; --color-purple: #a98bc9; --color-pink: #c97d9e;
+  --tl-gold: #c9a46a; --tl-gold-2: #e8cf9a; --tl-line: rgba(201, 164, 106, .18); --tl-line-2: rgba(201, 164, 106, .42);
+  --tl-ink-hi: #f3e6c8;
+  --callout-quote: #c9a46a;
+  --text-selection: rgba(179, 58, 48, .4);
+  --text-highlight-bg: rgba(217, 180, 106, .28);
+  --background-modifier-border: var(--tl-line); --background-modifier-border-hover: var(--tl-line-2); --background-modifier-border-focus: var(--tl-gold);
+  --divider-color: var(--tl-line);
+  --scrollbar-thumb-bg: rgba(201, 164, 106, .22); --scrollbar-active-thumb-bg: rgba(201, 164, 106, .4);
+}
+
+/* ─ light: parchment and bronze ink */
+.theme-light {
+  --color-base-00: #f6efe0; --color-base-05: #f1e8d6; --color-base-10: #ece2cc; --color-base-20: #e6dac0;
+  --color-base-25: #ddcfb2; --color-base-30: #d2c2a2; --color-base-35: #c3b08c; --color-base-40: #ae9a76;
+  --color-base-50: #8a7a5e; --color-base-60: #6f604a; --color-base-70: #5a4d3b; --color-base-100: #2a2118;
+  --accent-h: 34; --accent-s: 57%; --accent-l: 34%;
+  --text-on-accent: #fbf3e3; --text-on-accent-inverted: #2a2118;
+  --color-red: #a8362b; --color-orange: #b0601c; --color-yellow: #8f6a12; --color-green: #4f7a2a;
+  --color-cyan: #2f7a7a; --color-blue: #3e5a8c; --color-purple: #6b4a8c; --color-pink: #8c3e5f;
+  --tl-gold: #8a6426; --tl-gold-2: #6e4c18; --tl-line: rgba(110, 76, 24, .2); --tl-line-2: rgba(110, 76, 24, .42);
+  --tl-ink-hi: #1d160e;
+  --callout-quote: #8a6426;
+  --text-selection: rgba(168, 54, 43, .22);
+  --text-highlight-bg: rgba(201, 150, 60, .3);
+  --background-modifier-border: var(--tl-line); --background-modifier-border-hover: var(--tl-line-2); --background-modifier-border-focus: var(--tl-gold);
+  --divider-color: var(--tl-line);
+  --scrollbar-thumb-bg: rgba(110, 76, 24, .25); --scrollbar-active-thumb-bg: rgba(110, 76, 24, .45);
+}
+
+/* ─ both modes: what the scale does not reach */
+.theme-dark, .theme-light {
+  --h1-color: var(--tl-gold-2); --h2-color: var(--tl-gold-2); --h3-color: var(--tl-gold);
+  --h4-color: var(--tl-gold); --h5-color: var(--text-muted); --h6-color: var(--text-muted);
+  --inline-title-color: var(--tl-gold-2);
+  --bold-color: var(--tl-ink-hi);
+  --link-color: var(--tl-gold-2); --link-color-hover: var(--tl-ink-hi);
+  --link-external-color: var(--tl-gold-2); --link-external-color-hover: var(--tl-ink-hi);
+  --link-unresolved-color: var(--text-muted); --link-unresolved-decoration-color: var(--tl-line-2);
+  --blockquote-border-color: var(--tl-gold); --blockquote-border-thickness: 3px;
+  --hr-color: var(--tl-line-2);
+  --tag-color: var(--tl-gold-2); --tag-background: rgba(201, 164, 106, .12); --tag-border-color: var(--tl-line);
+  --tag-color-hover: var(--tl-ink-hi); --tag-background-hover: rgba(201, 164, 106, .2);
+  --nav-item-color-active: var(--tl-gold-2); --nav-item-background-active: rgba(201, 164, 106, .12);
+  --nav-item-color-selected: var(--tl-ink-hi);
+  --tab-text-color-focused-active: var(--tl-gold-2); --tab-text-color-focused-active-current: var(--tl-gold-2);
+  --modal-border-color: var(--tl-line-2);
+  --checkbox-color: var(--tl-gold); --checkbox-color-hover: var(--tl-gold-2); --checkbox-border-color: var(--tl-line-2);
+  --table-header-color: var(--tl-gold-2); --table-border-color: var(--tl-line);
+  --callout-border-width: 0 0 0 3px;
+}
+
+/* the inline title and the first-level headings carry a thin gold rule, like the panel's section heads */
+.markdown-rendered h1, .markdown-rendered h2, .inline-title { border-bottom: 1px solid var(--tl-line-2); padding-bottom: .12em; }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-1, .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-2 { border-bottom: 1px solid var(--tl-line-2); }
