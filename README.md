@@ -7,12 +7,13 @@ any vault.
 
 ![Torchlight](screenshot.png)
 
-- **Dark:** the colours of the Adventure Runner panel, so the panel and your notes read as one screen.
+- **Dark:** soot and gold leaf.
 - **Light:** parchment and bronze ink.
 - **Fonts:** embedded (no internet needed), Latin and Latin Extended (Turkish included).
 - **Read-aloud boxes:** quote callouts (`> [!quote]`) turn gold.
-- **Plugins:** it never styles plugin panels. Adventure Runner keeps its own look in any theme and can be retuned with
-  its own variables (see its `docs/theming.md`).
+- **Adventure Runner:** the plugin's panel takes Obsidian's look by default; Torchlight fills the panel's `--dmr-*`
+  variables (see the plugin's `docs/theming.md`) to give it the game look: metal medallions and AC shields, gilded
+  icons, a red Next button, in dark and in light. It never styles the plugin's classes, only those variables.
 
 Requires Obsidian 1.13.4 or newer: from 1.13.4 callout colours are full CSS colours, which the theme uses.
 
@@ -44,7 +45,8 @@ body {
 
 `src/theme.css` is the source. `npm run build` inlines the fonts and writes `theme.css` (the file Obsidian reads; never
 edit it by hand). `npm test` checks the theme against Obsidian's theme guidelines: no `!important`, no remote loading,
-embedded fonts with their licences, both colour modes, and that it never styles the Adventure Runner panel. Node 20 or
+embedded fonts with their licences, both colour modes, and that it fills the Adventure Runner panel's variables
+(only ones the plugin reads, when the plugin's folder sits next to this one) without styling its classes. Node 20 or
 newer, no dependencies.
 
 ## License

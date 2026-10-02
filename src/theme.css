@@ -100,3 +100,41 @@ body {
 /* the inline title and the first-level headings carry a thin gold rule, like the panel's section heads */
 .markdown-rendered h1, .markdown-rendered h2, .inline-title { border-bottom: 1px solid var(--tl-line-2); padding-bottom: .12em; }
 .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-1, .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-2 { border-bottom: 1px solid var(--tl-line-2); }
+
+/* ─ the Adventure Runner panel: its --dmr-* variables (the plugin reads them with Obsidian's as the fallback and
+   never sets them; the list is the plugin's docs/theming.md). Without the plugin these do nothing. */
+body { --dmr-display: var(--tl-display); }
+/* dark: the game look — soot, gold leaf, a red Next button */
+.theme-dark {
+  --dmr-bg: #120e0b; --dmr-backdrop: radial-gradient(120% 55% at 60% 28%, #2a2119 0%, #15110d 55%, #0b0907 100%);
+  --dmr-well: #0b0907; --dmr-pane: #1d1712; --dmr-pane-2: #2a2018;
+  --dmr-line: rgba(201, 164, 106, .18); --dmr-line-2: rgba(201, 164, 106, .42); --dmr-edge: #4a3a28; --dmr-edge-2: #3a2f22;
+  --dmr-ink: #ece2cc; --dmr-ink-2: #b9ab90; --dmr-ink-3: #8c806b; --dmr-ink-hi: #f3e6c8;
+  --dmr-gold: #c9a46a; --dmr-gold-2: #e8cf9a; --dmr-red: #b33a30; --dmr-on-red: #fbefd9; --dmr-danger: #e0584f;
+  --dmr-hp: linear-gradient(180deg, #d65a4a, #8a241b); --dmr-hp-low: linear-gradient(180deg, #ff6a50, #b0200f);
+  --dmr-top: linear-gradient(180deg, rgba(0, 0, 0, .72), rgba(0, 0, 0, .15));
+  --dmr-bar: linear-gradient(180deg, rgba(18, 14, 11, .96), #0e0b09);
+  --dmr-card: linear-gradient(180deg, rgba(0, 0, 0, .25), rgba(0, 0, 0, .55));
+  --dmr-tile: linear-gradient(180deg, #241c15, #120e0b); --dmr-track: rgba(0, 0, 0, .6);
+  --dmr-button: linear-gradient(180deg, #2a2018, #16110d);
+  --dmr-glow: 0 1px 3px #000; --dmr-raise: inset 0 1px 0 rgba(255, 220, 160, .08), 0 2px 6px #000;
+  --dmr-metal: radial-gradient(circle at 40% 35%, #f4dda8, #b8904c); --dmr-on-metal: #1a140c;
+  --dmr-rim: linear-gradient(170deg, #f0d48e, #8c6426 55%, #d9b46a); --dmr-shield: radial-gradient(90% 70% at 50% 20%, #3a2e22, #15100c 75%);
+  --dmr-cta-face: radial-gradient(circle at 50% 35%, #a6352c, #5a1712 62%, #2a0a07);
+  --dmr-cta-ring: inset 0 2px 0 rgba(255, 200, 170, .25), 0 0 0 2px #c9a46a, 0 0 0 4px #0e0b09, 0 0 0 5px rgba(232, 207, 154, .45), 0 0 22px rgba(212, 74, 60, .45);
+  --dmr-cta-ring-hover: inset 0 2px 0 rgba(255, 200, 170, .3), 0 0 0 2px #e8cf9a, 0 0 0 4px #0e0b09, 0 0 0 5px rgba(232, 207, 154, .7), 0 0 30px rgba(230, 100, 70, .6);
+  --dmr-cta-icon: url(#ar-gold) #fff3d6;
+  --dmr-icon-fill: url(#ar-gold) #d8ae60; --dmr-icon-shadow: drop-shadow(0 1px 0 rgba(0, 0, 0, .85));
+}
+/* light: the parchment page — bronze icons and metal, a red Next button */
+.theme-light {
+  --dmr-gold: #8a6426; --dmr-gold-2: #6e4c18; --dmr-ink-hi: #1d160e;
+  --dmr-red: #a8362b; --dmr-on-red: #fbf3e3;
+  --dmr-metal: radial-gradient(circle at 40% 35%, #e9c987, #a77c35); --dmr-on-metal: #1d1606;
+  --dmr-rim: linear-gradient(170deg, #c9a24a, #7a5214 55%, #b8893c);
+  --dmr-cta-face: radial-gradient(circle at 50% 35%, #b8463a, #7a2219 70%);
+  --dmr-cta-ring: 0 0 0 2px #8a6426, 0 2px 6px rgba(60, 40, 10, .35);
+  --dmr-cta-ring-hover: 0 0 0 2px #6e4c18, 0 3px 10px rgba(60, 40, 10, .45);
+  --dmr-cta-icon: url(#ar-gold) #fff3d6;
+  --dmr-icon-fill: url(#ar-bronze) #7a5214;
+}
