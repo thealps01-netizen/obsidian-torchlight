@@ -15,6 +15,8 @@ Merriweather for reading and Alegreya for headings.
 - **Icons:** Obsidian's own icons (ribbon, file explorer, tabs) take the gold, brighter on hover.
 - **Read-aloud boxes:** quote callouts (`> [!quote]`) turn gold.
 - **Tables:** figures line up in columns.
+- **Phones and tablets:** the same soot and parchment (Obsidian's mobile dark mode would otherwise turn the page
+  black).
 
 Requires Obsidian 1.13.4 or newer: from 1.13.4 callout colours are full CSS colours, which the theme uses.
 
@@ -51,6 +53,10 @@ never edit it by hand). `npm test` checks it against Obsidian's theme guidelines
 `!important`, no remote loading, embedded fonts with their licences, both colour modes, the gold following the
 accent, the contrast ratios, the Style Settings block, and the manifest and screenshot. Node 20 or newer, no
 dependencies.
+
+CI runs `npm test` on every push and pull request. To release, set the version in `manifest.json` and
+`package.json`, then push a tag with the same version (e.g. `0.3.0`, no `v`): the release workflow runs the checks
+and publishes `theme.css` and `manifest.json`.
 
 ## License
 

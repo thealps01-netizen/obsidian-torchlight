@@ -1,0 +1,25 @@
+# Release: push a tag equal to manifest.json's version (e.g. 0.3.0, no "v" prefix).
+# Runs the checks and publishes a GitHub release with theme.css and manifest.json: the two files Obsidian downloads
+# when a user installs or updates the theme. No untrusted input: only the tag name (pushed by someone with write access)
+# and the job's own token, both read from environment variables inside quotes.
+name: Release
+on:
+  push:
+    tags: ['*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
+      - name: Tag must match manifest.json version
+        run: test "$(node -p "require('./manifest.json').version")" = "${GITHUB_REF_NAME}"
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" theme.css manifest.json --title "Torchlight $GITHUB_REF_NAME" --generate-notes

@@ -87,8 +87,10 @@ body {
   --radius-s: 4px; --radius-m: 7px; --radius-l: 10px;
 }
 
-/* ─ dark: soot and gold leaf. The gold is Obsidian's accent (Settings → Appearance → Accent color recolours it). */
-.theme-dark {
+/* ─ dark: soot and gold leaf. The gold is Obsidian's accent (Settings → Appearance → Accent color recolours it).
+   .is-mobile.theme-dark too: on phones and tablets Obsidian turns the dark scale black and grey with that selector,
+   which outranks .theme-dark; listing it here keeps the soot (this sheet loads after Obsidian's, so the tie is ours). */
+.theme-dark, .is-mobile.theme-dark {
   --color-base-00: #120e0b; --color-base-05: #0f0c09; --color-base-10: #16110d; --color-base-20: #1d1712;
   --color-base-25: #241c15; --color-base-30: #3a2f22; --color-base-35: #4a3a28; --color-base-40: #5a4a36;
   --color-base-50: #8c806b; --color-base-60: #a0937c; --color-base-70: #b9ab90; --color-base-100: #ece2cc;
@@ -125,8 +127,8 @@ body {
   --text-highlight-bg: rgba(201, 150, 60, .3);
 }
 
-/* ─ both modes: Obsidian's variables on the gold */
-.theme-dark, .theme-light {
+/* ─ both modes: Obsidian's variables on the gold (.is-mobile.theme-dark: see the dark block) */
+.theme-dark, .is-mobile.theme-dark, .theme-light {
   --background-modifier-border: var(--tl-line); --background-modifier-border-hover: var(--tl-line-2);
   --background-modifier-border-focus: var(--tl-gold);
   --divider-color: var(--tl-line);

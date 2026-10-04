@@ -11,6 +11,8 @@
 // (9) readable: normal and muted text 7:1, faint text 4.5:1 (WCAG) on the page in both modes
 // (10) Style Settings: the @settings block is well-formed, and each class-toggle id has a body.<id> rule
 // (11) manifest.json has the fields the community-theme list needs, and a 512×288 screenshot.png
+// (12) phones and tablets keep the palette: Obsidian's `.is-mobile.theme-dark` turns the dark scale black and greys
+//      (it outranks `.theme-dark`), so the theme's dark blocks also match `.is-mobile.theme-dark`
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -32,13 +34,16 @@ ok('fonts embedded', faces.length >= 8 && faces.every(f => /url\("data:font\/wof
 const fonts = readdirSync(join(ROOT, 'fonts'));
 for (const fam of new Set(fonts.filter(f => f.endsWith('.woff2')).map(f => f.split('-')[0])))
   ok(`OFL licence for ${fam}`, fonts.includes(`OFL-${fam}.txt`));
-// the declarations of every rule whose whole selector is `sel`
-const block = sel => [...code.matchAll(new RegExp(`(?:^|\\})\\s*${sel.replace(/[.]/g, '\\.')}\\s*\\{([^}]*)\\}`, 'g'))].map(m => m[1]).join('\n');
+// the declarations of every rule whose selector list is exactly `sel` (a list: in any order, extra spaces ignored)
+const selKey = s => s.split(',').map(x => x.trim()).filter(Boolean).sort().join(',');
+const rules = [...code.matchAll(/(?<=^|\})\s*([^{}@]+?)\s*\{([^}]*)\}/g)].map(m => ({ sel: selKey(m[1]), body: m[2] }));
+const block = sel => rules.filter(r => r.sel === selKey(sel)).map(r => r.body).join('\n');
 const val = (b, v) => (b.match(new RegExp(`${v}\\s*:\\s*([^;]+);`)) || [])[1]?.trim();
 const lum = c => { const [r, g, b] = c.map(x => x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
 const ratio = (a, c) => { const [x, y] = [lum(a), lum(c)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+const modeSel = { dark: '.theme-dark, .is-mobile.theme-dark', light: '.theme-light' };
 for (const mode of ['dark', 'light']) {
-  const b = block(`.theme-${mode}`);
+  const b = block(modeSel[mode]);
   ok(`${mode} mode sets the colour scale`, /--color-base-00:/.test(b) && /--color-base-100:/.test(b), mode);
   ok(`${mode} mode sets the accent`, /--accent-h:/.test(b) && /--accent-l:/.test(b), mode);
   ok(`${mode} mode: the gold is the accent`, val(b, '--tl-gold') === 'hsl(var(--accent-h), var(--accent-s), var(--accent-l))', val(b, '--tl-gold'));
@@ -51,7 +56,7 @@ for (const mode of ['dark', 'light']) {
   }
 }
 ok('a plain theme: no plugin classes or variables', !/--dmr-|\.dmr[-\s{.,:]|#ar-/.test(code), (code.match(/--dmr-[\w-]+|\.dmr-[\w-]+|#ar-[\w-]+/g) || []).slice(0, 5));
-const both = block('.theme-dark, .theme-light');
+const both = block('.theme-dark, .is-mobile.theme-dark, .theme-light');
 for (const v of ['--icon-color', '--icon-color-hover', '--icon-color-active', '--icon-color-focused'])
   ok(`sets ${v} for the app's own icons`, new RegExp(`${v}\\s*:`).test(both));
 
