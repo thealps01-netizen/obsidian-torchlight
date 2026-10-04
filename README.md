@@ -51,12 +51,19 @@ Without the plugin the theme looks the same; the options are all off by default.
 `src/theme.css` is the source. `npm run build` inlines the fonts and writes `theme.css` (the file Obsidian reads;
 never edit it by hand). `npm test` checks it against Obsidian's theme guidelines and the promises above: no
 `!important`, no remote loading, embedded fonts with their licences, both colour modes, the gold following the
-accent, the contrast ratios, the Style Settings block, and the manifest and screenshot. Node 20 or newer, no
-dependencies.
+accent, the contrast ratios, the Style Settings block, and the manifest and screenshot. Chromium also renders
+`theme.css` to check the Style Settings options on desktop, phone and tablet class/viewport combinations in
+both colour modes, including switching the options back off.
 
-CI runs `npm test` on every push and pull request. To release, set the version in `manifest.json` and
-`package.json`, then push a tag with the same version (e.g. `0.3.0`, no `v`): the release workflow runs the checks
-and publishes `theme.css` and `manifest.json`.
+Development requires Node 20 or newer. Playwright is pinned as a development-only dependency; installing the
+theme still needs only `theme.css` and `manifest.json`. Run `npm ci` and `npm run test:setup` once before
+`npm test` (the setup command installs headless Chromium and, on Linux, its system dependencies).
+The browser fixture consumes Obsidian's CSS variables; it does not launch Obsidian or prove compatibility
+across Obsidian versions or physical devices.
+
+CI and release checks install the pinned dependencies and browser, then run `npm test`. To release, set the
+version in `manifest.json` and `package.json`, then push a tag with the same version (e.g. `0.3.0`, no `v`):
+the release workflow runs the checks and publishes `theme.css` and `manifest.json`.
 
 ## License
 

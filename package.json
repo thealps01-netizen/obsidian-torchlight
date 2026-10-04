@@ -11,6 +11,10 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "node tests/check.mjs"
+    "test": "node tests/check.mjs",
+    "test:setup": "playwright install --with-deps --only-shell chromium"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
   }
 }

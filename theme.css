@@ -167,7 +167,10 @@ body {
 /* ─ Style Settings options (the block at the top); each one is a class on body, off by default */
 body.torchlight-text-headings { --tl-display: var(--font-text); }
 body.torchlight-no-small-caps { --h1-variant: normal; --h2-variant: normal; --inline-title-variant: normal; }
+/* Mobile colour rules match two classes; these options must outrank them too. */
+body.is-mobile.torchlight-no-heading-rules,
 body.torchlight-no-heading-rules { --tl-rule: transparent; }
+body.is-mobile.torchlight-plain-icons,
 body.torchlight-plain-icons {
   --icon-color: var(--text-muted); --icon-color-hover: var(--text-normal);
   --icon-color-active: var(--text-accent); --icon-color-focused: var(--text-normal);
