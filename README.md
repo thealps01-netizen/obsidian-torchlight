@@ -1,55 +1,56 @@
 # Torchlight
 
 A dark, gold-trimmed Obsidian theme with a parchment light mode: soot-brown surfaces, gold headings and links,
-Merriweather for reading and Alegreya for headings. It was made to sit beside the
-[Adventure Runner](https://github.com/thealps01-netizen/adventure-runner) panel, but it is a plain theme and works on
-any vault.
+Merriweather for reading and Alegreya for headings.
 
 ![Torchlight](screenshot.png)
 
 - **Dark:** soot and gold leaf.
 - **Light:** parchment and bronze ink.
-- **Fonts:** embedded (no internet needed), Latin and Latin Extended (Turkish included).
+- **Readable:** text and muted text at least 7:1 against the page in both modes, faint text at least 4.5:1 (WCAG).
+- **Fonts:** embedded (no internet needed), Latin and Latin Extended.
+- **Your accent colour:** the gold is Obsidian's accent. Settings → Appearance → Accent color recolours headings,
+  links, icons and borders together.
+- **Your fonts:** Settings → Appearance → Text font / Interface font replace Merriweather.
+- **Icons:** Obsidian's own icons (ribbon, file explorer, tabs) take the gold, brighter on hover.
 - **Read-aloud boxes:** quote callouts (`> [!quote]`) turn gold.
-- **Icons:** Obsidian's own icons (ribbon, file explorer, tabs) are gold in dark and bronze in light, brighter on
-  hover.
-- **Adventure Runner:** the plugin's panel takes Obsidian's look by default; Torchlight fills the panel's `--dmr-*`
-  variables (see the plugin's `docs/theming.md`) to give it the game look: metal medallions and AC shields, gilded
-  icons, a red Next button, in dark and in light. It never styles the plugin's classes, only those variables.
+- **Tables:** figures line up in columns.
 
 Requires Obsidian 1.13.4 or newer: from 1.13.4 callout colours are full CSS colours, which the theme uses.
 
 ## Install
 
-Until it is listed in the community themes:
+From Obsidian: Settings → Appearance → Themes → Manage → search **Torchlight** → Install and use.
 
-1. Copy `theme.css` and `manifest.json` into `<your vault>/.obsidian/themes/Torchlight/`.
+By hand (before it is listed, or offline):
+
+1. Copy `theme.css` and `manifest.json` from the [latest release](../../releases/latest) into
+   `<your vault>/.obsidian/themes/Torchlight/`.
 2. Settings → Appearance → Themes → choose **Torchlight**.
-3. Settings → Appearance → Base color scheme: **Dark** or **Light**.
 
-To change back: Settings → Appearance → Themes → **Default**.
+Settings → Appearance → Base color scheme picks **Dark** or **Light**. To change back: Themes → **Default**.
 
-## Customise
+## Options
 
-Set any of these on `body` in a CSS snippet (Settings → Appearance → CSS snippets):
+With the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin, Settings → Style Settings →
+Torchlight:
 
-```css
-body {
-  --font-text-theme: var(--font-default);      /* Obsidian's own body font instead of Merriweather */
-  --font-interface-theme: var(--font-default); /* … and for the interface */
-}
-.theme-dark {
-  --accent-h: 37; --accent-s: 47%; --accent-l: 60%; /* the accent (gold); a hue/saturation/lightness triple */
-}
-```
+| Option | What it does |
+|---|---|
+| Headings in the text font | Headings use the body font instead of Alegreya. |
+| No small capitals | The title and the first two heading levels in normal letters. |
+| No heading rules | No thin line under the title and the first two heading levels. |
+| Plain icons | The app's icons in the muted text colour instead of gold. |
+
+Without the plugin the theme looks the same; the options are all off by default.
 
 ## Development
 
-`src/theme.css` is the source. `npm run build` inlines the fonts and writes `theme.css` (the file Obsidian reads; never
-edit it by hand). `npm test` checks the theme against Obsidian's theme guidelines: no `!important`, no remote loading,
-embedded fonts with their licences, both colour modes, and that it fills the Adventure Runner panel's variables
-(only ones the plugin reads, when the plugin's folder sits next to this one) without styling its classes. Node 20 or
-newer, no dependencies.
+`src/theme.css` is the source. `npm run build` inlines the fonts and writes `theme.css` (the file Obsidian reads;
+never edit it by hand). `npm test` checks it against Obsidian's theme guidelines and the promises above: no
+`!important`, no remote loading, embedded fonts with their licences, both colour modes, the gold following the
+accent, the contrast ratios, the Style Settings block, and the manifest and screenshot. Node 20 or newer, no
+dependencies.
 
 ## License
 

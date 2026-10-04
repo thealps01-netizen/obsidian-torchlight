@@ -1,7 +1,56 @@
-/* Torchlight: a dark, gold-trimmed Obsidian theme with a parchment light mode, made to sit beside the Adventure
-   Runner panel (it never styles the panel; the panel keeps its own look in any theme).
+/* Torchlight: soot and gold leaf in dark mode, parchment and bronze ink in light mode. Merriweather for text,
+   Alegreya for headings, both embedded. The gold is Obsidian's accent colour, so the accent setting recolours it.
    Source file: scripts/build.mjs inlines the fonts (url(fonts/…)) as data URIs and writes theme.css. Edit this file,
-   never theme.css. Variables first: the colour scale, the accent and the fonts drive almost everything. */
+   never theme.css. Obsidian's variables only: the colour scale, the accent and the fonts drive almost everything. */
+
+/* @settings
+
+name: Torchlight
+id: torchlight
+settings:
+    -
+        id: torchlight-colours
+        title: Colours and fonts
+        description: "The gold follows Obsidian's accent colour, and the body and interface fonts follow Obsidian's font settings: change them under Settings → Appearance."
+        type: info-text
+        markdown: true
+    -
+        id: torchlight-headings
+        title: Headings
+        type: heading
+        level: 2
+        collapsed: false
+    -
+        id: torchlight-text-headings
+        title: Headings in the text font
+        description: Use the body font for headings instead of Alegreya.
+        type: class-toggle
+        default: false
+    -
+        id: torchlight-no-small-caps
+        title: No small capitals
+        description: Set the title and the first two heading levels in normal letters.
+        type: class-toggle
+        default: false
+    -
+        id: torchlight-no-heading-rules
+        title: No heading rules
+        description: Drop the thin line under the title and the first two heading levels.
+        type: class-toggle
+        default: false
+    -
+        id: torchlight-interface
+        title: Interface
+        type: heading
+        level: 2
+        collapsed: false
+    -
+        id: torchlight-plain-icons
+        title: Plain icons
+        description: Show the app's icons in the muted text colour instead of gold.
+        type: class-toggle
+        default: false
+*/
 
 /* ─ fonts: Merriweather (body and interface) and Alegreya (headings), Latin + Latin Extended, SIL OFL 1.1 */
 @font-face { font-family: 'Torchlight Merriweather'; font-style: normal; font-weight: 300 900; font-display: swap; src: url(fonts/Merriweather-latin.woff2) format('woff2');
@@ -21,7 +70,7 @@
 @font-face { font-family: 'Torchlight Alegreya'; font-style: italic; font-weight: 400 800; font-display: swap; src: url(fonts/Alegreya-italic-latin-ext.woff2) format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 
-/* ─ both modes: fonts and type */
+/* ─ both modes: type */
 body {
   --font-text-theme: 'Torchlight Merriweather', Georgia, serif;
   --font-interface-theme: 'Torchlight Merriweather', Georgia, serif;
@@ -37,7 +86,7 @@ body {
   --radius-s: 4px; --radius-m: 7px; --radius-l: 10px;
 }
 
-/* ─ dark: soot and gold (the panel's palette) */
+/* ─ dark: soot and gold leaf. The gold is Obsidian's accent (Settings → Appearance → Accent color recolours it). */
 .theme-dark {
   --color-base-00: #120e0b; --color-base-05: #0f0c09; --color-base-10: #16110d; --color-base-20: #1d1712;
   --color-base-25: #241c15; --color-base-30: #3a2f22; --color-base-35: #4a3a28; --color-base-40: #5a4a36;
@@ -46,37 +95,42 @@ body {
   --text-on-accent: #1a140c; --text-on-accent-inverted: #f3e6c8;
   --color-red: #d4574a; --color-orange: #d9893e; --color-yellow: #d9b46a; --color-green: #8fae5e;
   --color-cyan: #6fb0b0; --color-blue: #7d98c9; --color-purple: #a98bc9; --color-pink: #c97d9e;
-  --tl-gold: #c9a46a; --tl-gold-2: #e8cf9a; --tl-line: rgba(201, 164, 106, .18); --tl-line-2: rgba(201, 164, 106, .42);
+  --tl-gold: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
+  --tl-gold-2: hsl(calc(var(--accent-h) + 4), calc(var(--accent-s) + 17%), calc(var(--accent-l) + 16%));
+  --tl-wash: hsla(var(--accent-h), var(--accent-s), var(--accent-l), .12);
+  --tl-line: hsla(var(--accent-h), var(--accent-s), var(--accent-l), .18);
+  --tl-line-2: hsla(var(--accent-h), var(--accent-s), var(--accent-l), .42);
   --tl-ink-hi: #f3e6c8;
-  --callout-quote: #c9a46a;
   --text-selection: rgba(179, 58, 48, .4);
   --text-highlight-bg: rgba(217, 180, 106, .28);
-  --background-modifier-border: var(--tl-line); --background-modifier-border-hover: var(--tl-line-2); --background-modifier-border-focus: var(--tl-gold);
-  --divider-color: var(--tl-line);
-  --scrollbar-thumb-bg: rgba(201, 164, 106, .22); --scrollbar-active-thumb-bg: rgba(201, 164, 106, .4);
 }
 
 /* ─ light: parchment and bronze ink */
 .theme-light {
   --color-base-00: #f6efe0; --color-base-05: #f1e8d6; --color-base-10: #ece2cc; --color-base-20: #e6dac0;
   --color-base-25: #ddcfb2; --color-base-30: #d2c2a2; --color-base-35: #c3b08c; --color-base-40: #ae9a76;
-  --color-base-50: #8a7a5e; --color-base-60: #6f604a; --color-base-70: #5a4d3b; --color-base-100: #2a2118;
-  --accent-h: 34; --accent-s: 57%; --accent-l: 34%;
+  --color-base-50: #78694f; --color-base-60: #6a5c45; --color-base-70: #5a4d3b; --color-base-100: #2a2118;
+  --accent-h: 37; --accent-s: 57%; --accent-l: 34%;
   --text-on-accent: #fbf3e3; --text-on-accent-inverted: #2a2118;
   --color-red: #a8362b; --color-orange: #b0601c; --color-yellow: #8f6a12; --color-green: #4f7a2a;
   --color-cyan: #2f7a7a; --color-blue: #3e5a8c; --color-purple: #6b4a8c; --color-pink: #8c3e5f;
-  --tl-gold: #8a6426; --tl-gold-2: #6e4c18; --tl-line: rgba(110, 76, 24, .2); --tl-line-2: rgba(110, 76, 24, .42);
+  --tl-gold: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
+  --tl-gold-2: hsl(var(--accent-h), calc(var(--accent-s) + 7%), calc(var(--accent-l) - 8%));
+  --tl-wash: hsla(var(--accent-h), var(--accent-s), var(--accent-l), .1);
+  --tl-line: hsla(var(--accent-h), calc(var(--accent-s) + 7%), calc(var(--accent-l) - 8%), .2);
+  --tl-line-2: hsla(var(--accent-h), calc(var(--accent-s) + 7%), calc(var(--accent-l) - 8%), .42);
   --tl-ink-hi: #1d160e;
-  --callout-quote: #8a6426;
   --text-selection: rgba(168, 54, 43, .22);
   --text-highlight-bg: rgba(201, 150, 60, .3);
-  --background-modifier-border: var(--tl-line); --background-modifier-border-hover: var(--tl-line-2); --background-modifier-border-focus: var(--tl-gold);
-  --divider-color: var(--tl-line);
-  --scrollbar-thumb-bg: rgba(110, 76, 24, .25); --scrollbar-active-thumb-bg: rgba(110, 76, 24, .45);
 }
 
-/* ─ both modes: what the scale does not reach */
+/* ─ both modes: Obsidian's variables on the gold */
 .theme-dark, .theme-light {
+  --background-modifier-border: var(--tl-line); --background-modifier-border-hover: var(--tl-line-2);
+  --background-modifier-border-focus: var(--tl-gold);
+  --divider-color: var(--tl-line);
+  --scrollbar-thumb-bg: var(--tl-line-2); --scrollbar-active-thumb-bg: var(--tl-gold);
+  --caret-color: var(--tl-gold-2);
   --h1-color: var(--tl-gold-2); --h2-color: var(--tl-gold-2); --h3-color: var(--tl-gold);
   --h4-color: var(--tl-gold); --h5-color: var(--text-muted); --h6-color: var(--text-muted);
   --inline-title-color: var(--tl-gold-2);
@@ -86,59 +140,32 @@ body {
   --link-unresolved-color: var(--text-muted); --link-unresolved-decoration-color: var(--tl-line-2);
   --blockquote-border-color: var(--tl-gold); --blockquote-border-thickness: 3px;
   --hr-color: var(--tl-line-2);
-  --tag-color: var(--tl-gold-2); --tag-background: rgba(201, 164, 106, .12); --tag-border-color: var(--tl-line);
-  --tag-color-hover: var(--tl-ink-hi); --tag-background-hover: rgba(201, 164, 106, .2);
-  --nav-item-color-active: var(--tl-gold-2); --nav-item-background-active: rgba(201, 164, 106, .12);
+  --tag-color: var(--tl-gold-2); --tag-background: var(--tl-wash); --tag-border-color: var(--tl-line);
+  --tag-color-hover: var(--tl-ink-hi); --tag-background-hover: var(--tl-line);
+  --nav-item-color-active: var(--tl-gold-2); --nav-item-background-active: var(--tl-wash);
   --nav-item-color-selected: var(--tl-ink-hi);
-  /* Obsidian's own icons (ribbon, file explorer, tabs, view actions): gold leaf in dark, bronze in light;
-     brighter on hover and when active (by default they take the muted text colour, grey-beige here) */
+  /* the app's own icons (ribbon, file explorer, tabs, view actions): gold, brighter on hover and when active */
   --icon-color: var(--tl-gold); --icon-color-hover: var(--tl-gold-2);
   --icon-color-active: var(--tl-gold-2); --icon-color-focused: var(--tl-gold-2);
   --tab-text-color-focused-active: var(--tl-gold-2); --tab-text-color-focused-active-current: var(--tl-gold-2);
   --modal-border-color: var(--tl-line-2);
   --checkbox-color: var(--tl-gold); --checkbox-color-hover: var(--tl-gold-2); --checkbox-border-color: var(--tl-line-2);
   --table-header-color: var(--tl-gold-2); --table-border-color: var(--tl-line);
-  --callout-border-width: 0 0 0 3px;
+  --callout-quote: var(--tl-gold); --callout-border-width: 0 0 0 3px;
+  --tl-rule: var(--tl-line-2);
 }
 
-/* the inline title and the first-level headings carry a thin gold rule, like the panel's section heads */
-.markdown-rendered h1, .markdown-rendered h2, .inline-title { border-bottom: 1px solid var(--tl-line-2); padding-bottom: .12em; }
-.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-1, .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-2 { border-bottom: 1px solid var(--tl-line-2); }
+/* the title and the first two heading levels carry a thin gold rule */
+.markdown-rendered h1, .markdown-rendered h2, .inline-title { border-bottom: 1px solid var(--tl-rule); padding-bottom: .12em; }
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header-1, .markdown-source-view.mod-cm6 .cm-line.HyperMD-header-2 { border-bottom: 1px solid var(--tl-rule); }
+/* figures in tables line up in columns */
+.markdown-rendered table { font-variant-numeric: tabular-nums; }
 
-/* ─ the Adventure Runner panel: its --dmr-* variables (the plugin reads them with Obsidian's as the fallback and
-   never sets them; the list is the plugin's docs/theming.md). Without the plugin these do nothing. */
-body { --dmr-display: var(--tl-display); }
-/* dark: the game look — soot, gold leaf, a red Next button */
-.theme-dark {
-  --dmr-bg: #120e0b; --dmr-backdrop: radial-gradient(120% 55% at 60% 28%, #2a2119 0%, #15110d 55%, #0b0907 100%);
-  --dmr-well: #0b0907; --dmr-pane: #1d1712; --dmr-pane-2: #2a2018;
-  --dmr-line: rgba(201, 164, 106, .18); --dmr-line-2: rgba(201, 164, 106, .42); --dmr-edge: #4a3a28; --dmr-edge-2: #3a2f22;
-  --dmr-ink: #ece2cc; --dmr-ink-2: #b9ab90; --dmr-ink-3: #8c806b; --dmr-ink-hi: #f3e6c8;
-  --dmr-gold: #c9a46a; --dmr-gold-2: #e8cf9a; --dmr-red: #b33a30; --dmr-on-red: #fbefd9; --dmr-danger: #e0584f;
-  --dmr-hp: linear-gradient(180deg, #d65a4a, #8a241b); --dmr-hp-low: linear-gradient(180deg, #ff6a50, #b0200f);
-  --dmr-top: linear-gradient(180deg, rgba(0, 0, 0, .72), rgba(0, 0, 0, .15));
-  --dmr-bar: linear-gradient(180deg, rgba(18, 14, 11, .96), #0e0b09);
-  --dmr-card: linear-gradient(180deg, rgba(0, 0, 0, .25), rgba(0, 0, 0, .55));
-  --dmr-tile: linear-gradient(180deg, #241c15, #120e0b); --dmr-track: rgba(0, 0, 0, .6);
-  --dmr-button: linear-gradient(180deg, #2a2018, #16110d);
-  --dmr-glow: 0 1px 3px #000; --dmr-raise: inset 0 1px 0 rgba(255, 220, 160, .08), 0 2px 6px #000;
-  --dmr-metal: radial-gradient(circle at 40% 35%, #f4dda8, #b8904c); --dmr-on-metal: #1a140c;
-  --dmr-rim: linear-gradient(170deg, #f0d48e, #8c6426 55%, #d9b46a); --dmr-shield: radial-gradient(90% 70% at 50% 20%, #3a2e22, #15100c 75%);
-  --dmr-cta-face: radial-gradient(circle at 50% 35%, #a6352c, #5a1712 62%, #2a0a07);
-  --dmr-cta-ring: inset 0 2px 0 rgba(255, 200, 170, .25), 0 0 0 2px #c9a46a, 0 0 0 4px #0e0b09, 0 0 0 5px rgba(232, 207, 154, .45), 0 0 22px rgba(212, 74, 60, .45);
-  --dmr-cta-ring-hover: inset 0 2px 0 rgba(255, 200, 170, .3), 0 0 0 2px #e8cf9a, 0 0 0 4px #0e0b09, 0 0 0 5px rgba(232, 207, 154, .7), 0 0 30px rgba(230, 100, 70, .6);
-  --dmr-cta-icon: url(#ar-gold) #fff3d6;
-  --dmr-icon-fill: url(#ar-gold) #d8ae60; --dmr-icon-shadow: drop-shadow(0 1px 0 rgba(0, 0, 0, .85));
-}
-/* light: the parchment page — bronze icons and metal, a red Next button */
-.theme-light {
-  --dmr-gold: #8a6426; --dmr-gold-2: #6e4c18; --dmr-ink-hi: #1d160e;
-  --dmr-red: #a8362b; --dmr-on-red: #fbf3e3;
-  --dmr-metal: radial-gradient(circle at 40% 35%, #e9c987, #a77c35); --dmr-on-metal: #1d1606;
-  --dmr-rim: linear-gradient(170deg, #c9a24a, #7a5214 55%, #b8893c);
-  --dmr-cta-face: radial-gradient(circle at 50% 35%, #b8463a, #7a2219 70%);
-  --dmr-cta-ring: 0 0 0 2px #8a6426, 0 2px 6px rgba(60, 40, 10, .35);
-  --dmr-cta-ring-hover: 0 0 0 2px #6e4c18, 0 3px 10px rgba(60, 40, 10, .45);
-  --dmr-cta-icon: url(#ar-gold) #fff3d6;
-  --dmr-icon-fill: url(#ar-bronze) #7a5214;
+/* ─ Style Settings options (the block at the top); each one is a class on body, off by default */
+body.torchlight-text-headings { --tl-display: var(--font-text); }
+body.torchlight-no-small-caps { --h1-variant: normal; --h2-variant: normal; --inline-title-variant: normal; }
+body.torchlight-no-heading-rules { --tl-rule: transparent; }
+body.torchlight-plain-icons {
+  --icon-color: var(--text-muted); --icon-color-hover: var(--text-normal);
+  --icon-color-active: var(--text-accent); --icon-color-focused: var(--text-normal);
 }
