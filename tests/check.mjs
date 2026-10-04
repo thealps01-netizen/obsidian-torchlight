@@ -36,6 +36,11 @@ for (const mode of ['dark', 'light']) {
   ok(`${mode} mode sets the colour scale`, /--color-base-00:/.test(block) && /--color-base-100:/.test(block), mode);
   ok(`${mode} mode sets the accent`, /--accent-h:/.test(block) && /--accent-l:/.test(block), mode);
 }
+// Obsidian's own icons (ribbon, file explorer, tabs) take --icon-color*, which defaults to the muted text colour:
+// without these the app's icons stay grey-beige while everything else is gold (or bronze in light mode).
+const both = [...code.matchAll(/\.theme-dark,\s*\.theme-light\s*\{([^}]*)\}/g)].map(m => m[1]).join('\n');
+for (const v of ['--icon-color', '--icon-color-hover', '--icon-color-active', '--icon-color-focused'])
+  ok(`sets ${v} for Obsidian's own icons`, new RegExp(`${v}\\s*:`).test(both));
 ok('does not style the Adventure Runner panel\'s classes', !/\.dmr[-\s{.,:]/.test(code));
 const panel = mode => [...code.matchAll(new RegExp(`\\.theme-${mode}\\s*\\{([^}]*)\\}`, 'g'))].map(m => m[1]).join('\n');
 for (const mode of ['dark', 'light']) {

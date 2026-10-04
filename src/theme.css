@@ -90,6 +90,10 @@ body {
   --tag-color-hover: var(--tl-ink-hi); --tag-background-hover: rgba(201, 164, 106, .2);
   --nav-item-color-active: var(--tl-gold-2); --nav-item-background-active: rgba(201, 164, 106, .12);
   --nav-item-color-selected: var(--tl-ink-hi);
+  /* Obsidian's own icons (ribbon, file explorer, tabs, view actions): gold leaf in dark, bronze in light;
+     brighter on hover and when active (by default they take the muted text colour, grey-beige here) */
+  --icon-color: var(--tl-gold); --icon-color-hover: var(--tl-gold-2);
+  --icon-color-active: var(--tl-gold-2); --icon-color-focused: var(--tl-gold-2);
   --tab-text-color-focused-active: var(--tl-gold-2); --tab-text-color-focused-active-current: var(--tl-gold-2);
   --modal-border-color: var(--tl-line-2);
   --checkbox-color: var(--tl-gold); --checkbox-color-hover: var(--tl-gold-2); --checkbox-border-color: var(--tl-line-2);

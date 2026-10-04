@@ -11,6 +11,8 @@ any vault.
 - **Light:** parchment and bronze ink.
 - **Fonts:** embedded (no internet needed), Latin and Latin Extended (Turkish included).
 - **Read-aloud boxes:** quote callouts (`> [!quote]`) turn gold.
+- **Icons:** Obsidian's own icons (ribbon, file explorer, tabs) are gold in dark and bronze in light, brighter on
+  hover.
 - **Adventure Runner:** the plugin's panel takes Obsidian's look by default; Torchlight fills the panel's `--dmr-*`
   variables (see the plugin's `docs/theming.md`) to give it the game look: metal medallions and AC shields, gilded
   icons, a red Next button, in dark and in light. It never styles the plugin's classes, only those variables.
